@@ -11,7 +11,7 @@ import SwiftUI
 struct WaCCApp: App {
     var body: some Scene {
         WindowGroup {
-            CounterContentView(inputText: "")
+            CounterContentView(inputText: "", inputChar: "")
         }
     }
 }

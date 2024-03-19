@@ -16,37 +16,65 @@ import SwiftUI
 
 struct CounterContentView: View {
     
+    //MARK: - var
     @State var inputText: String
-    
+    @State var inputChar: String
     var body: some View {
         let text = inputText
-        
+        let countE = inputChar
         return VStack {
             
-            ScrollView {
-                VStack(alignment: .leading) {
-                    TextEditor(text: $inputText)
-                        .font(.title3)
-                        .italic()
-                        .cornerRadius(8)
-                        .padding()
-                        .lineLimit(8)
-                        .frame(height: 100)
-                    
-                        Text("eingegebener Text:")
-                            .frame(alignment: .leading)
-                        
-                        Text(text)
-                            .frame(alignment: .leading)
-                            .font(.title2)
+            
+            //MARK: - UI
+            //            VStack {
+            
+            //MARK: - Eingabe
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Text eingeben:")
+                    Spacer(minLength: 342)
+                    Text("Buchstabe: "); TextEditor(text: $inputChar)
+                        .lineLimit(1)
+                        .frame(width: 40, height: 24, alignment: .bottomLeading)
+                        .cornerRadius(6)
+//                        .padding()
+                    Spacer()
                 }
-                .multilineTextAlignment(.leading)
-                .padding()
-//                .frame(width: .infinity)
-                .scrollIndicators(.hidden)
+                TextEditor(text: $inputText)
+                    .font(.title3)
+                    .italic()
+                    .cornerRadius(6)
+                    .padding()
+                    .lineLimit(8)
+                    .frame(height: 144)
             }
+            .padding()
             
             
+            //MARK: - Ausgabe
+            VStack {
+                Text("eingegebener Text:")
+                    .frame(alignment: .leading)
+                
+                if !text.isEmpty {
+                    Text(text)
+                        .padding(.horizontal, 8)
+                        .frame(height: 288, alignment: .leading)
+                        .font(.title2)
+                        .background(Color.blue.opacity(0.6))
+                        .foregroundStyle(.white)
+                        .cornerRadius(4)
+                } else {}
+            }
+            .multilineTextAlignment(.leading)
+            
+            Spacer()
+            
+            
+            //MARK: - Ergebnis
+            
+            Divider()
+                .background(Color.blue.opacity(0.4))
             HStack(alignment: .bottom) {
                 Text("\nAnzahl der Zeichen:\t")
                     .bold()
@@ -61,10 +89,22 @@ struct CounterContentView: View {
                 Text("\(wordCount)")
             }
             .frame(alignment: .leading)
+            
+            HStack(alignment: .bottom) {
+                let countE = countletterE(in: text)
+                Text("Anzahl Buchstabe \(inputChar):\t")
+                    .bold()
+                Text("\(countE)")
+            }
+            .frame(alignment: .leading)
+            
+            
             Spacer()
+            
         }
     }
     
+    //MARK: - func
     func counterOfChars() -> Int {
         return inputText.count
     }
@@ -74,9 +114,15 @@ struct CounterContentView: View {
         let words = text.components(separatedBy: .whitespacesAndNewlines)
         return words.filter { !$0.isEmpty }.count
     }
+    
+    
+    func countletterE(in text: String) -> Int {
+        let countE = text.filter { $0 == "E" || $0 == "e" }.count
+        return countE
+    }
 }
 
 
 #Preview {
-    CounterContentView(inputText: "")
+    CounterContentView(inputText: "", inputChar: "")
 }
